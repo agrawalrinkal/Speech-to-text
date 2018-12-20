@@ -6,8 +6,8 @@ const speech = require('@google-cloud/speech');
 
 // Creates a client
 const client = new speech.SpeechClient({
-      keyFile: '/Users/mac/Desktop/google-cloud-speech/gc-speech-1317c8a1a4e4.json',
-      projectId: 'gc-speech-1515091348818'
+      keyFile: 'your_feyfile_path',
+      projectId: 'you_project_id'
 });
 
 const request = {
@@ -19,9 +19,7 @@ const request = {
   interimResults: false, // If you want interim results, set this to true
 };
 
-var text = "";
-
-
+// Create a http server and start listening on a port
 http.createServer(function(request, response) {
 
   fs.readFile('./speech.html', function (err, html) {
@@ -39,8 +37,13 @@ http.createServer(function(request, response) {
 
 console.log('Server Started listening on port 3000');
 
+// Speech to text logic
 function convertSpeechToText() {
-  console.log("convert function is invoked!!");
+    console.log("convert function is invoked!!");
+      
+    // Initial text
+    var text = "";
+      
     // Create a recognize stream
     const recognizeStream = client
       .streamingRecognize(request)
@@ -69,6 +72,7 @@ function convertSpeechToText() {
       response.end();
 }
 
+// Stops listening to the user
 function stop() {
-
+      record.stop();
 }
